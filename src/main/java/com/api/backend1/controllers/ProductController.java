@@ -23,7 +23,6 @@ public class ProductController{
     ProductService productService;
 
 
-
     @PostMapping
     public ProductModel save(@RequestBody ProductDto productDto) {
         return productService.createProduct(productDto);

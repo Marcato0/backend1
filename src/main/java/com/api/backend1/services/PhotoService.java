@@ -1,7 +1,9 @@
 package com.api.backend1.services;
 
 
+import com.api.backend1.exceptions.ResourceNotFoundException;
 import com.api.backend1.models.PhotoModel;
+import com.api.backend1.models.ProductModel;
 import com.api.backend1.repositories.PhotoRepository;
 import com.api.backend1.utils.ImageUtils;
 import jakarta.transaction.Transactional;
@@ -23,6 +25,7 @@ public class PhotoService {
     PhotoRepository photoRepository;
 
         public String uploadImage(MultipartFile file) throws IOException {
+
 
             PhotoModel ImageSave = photoRepository.save(PhotoModel.builder()
                     .name(file.getOriginalFilename())
@@ -46,12 +49,21 @@ public class PhotoService {
             return photoRepository.findAll();
         }
 
-        public Optional<PhotoModel> findById(UUID id) {
-            return photoRepository.findById(id);
-        }
 
         @Transactional
-        public void delete(PhotoModel photoModel) {
-            photoRepository.delete(photoModel);
+        public void deletePhoto(UUID id) throws ResourceNotFoundException {
+
+            //busca a foto pelo id
+            Optional<PhotoModel> optionalPhoto = photoRepository.findById(id);
+
+            // verifica se a foto existe
+            if (optionalPhoto.isEmpty()) {
+                throw new ResourceNotFoundException("Photo not found with id: " + id);
+            }
+
+
+            // exclui a foto encontrada
+            PhotoModel photo = optionalPhoto.get();
+            photoRepository.deleteById(photo.getId_photo());
         }
 }

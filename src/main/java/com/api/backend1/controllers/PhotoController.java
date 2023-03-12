@@ -1,6 +1,7 @@
 package com.api.backend1.controllers;
 
 
+import com.api.backend1.exceptions.ResourceNotFoundException;
 import com.api.backend1.models.PhotoModel;
 import com.api.backend1.services.PhotoService;
 import org.springframework.http.HttpStatus;
@@ -46,14 +47,10 @@ public class PhotoController {
                 .body(imageDownload);
     }
 
-    @DeleteMapping("/{id_photo}")
-    public ResponseEntity<Object> deleteImage(@PathVariable(value = "id_photo") UUID id){
 
-        Optional<PhotoModel> photoModelOptional = photoService.findById(id);
-        if (!photoModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Image not found.");
-        }
-        photoService.delete(photoModelOptional.get());
+    @DeleteMapping("/{id_photo}")
+    public ResponseEntity<Object> deleteImage(@PathVariable (value = "id_photo") UUID id) throws ResourceNotFoundException {
+        photoService.deletePhoto(id);
         return ResponseEntity.status(HttpStatus.OK).body("Image deleted successfully.");
     }
 
