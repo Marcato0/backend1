@@ -5,6 +5,7 @@ import com.api.backend1.models.PhotoModel;
 import com.api.backend1.repositories.PhotoRepository;
 import com.api.backend1.utils.ImageUtils;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,11 +18,9 @@ import java.util.UUID;
 public class PhotoService {
 
     //ponto de injeção
-    final
+
+    @Autowired
     PhotoRepository photoRepository;
-    public PhotoService(PhotoRepository photoRepository) {
-        this.photoRepository = photoRepository;
-    }
 
         public String uploadImage(MultipartFile file) throws IOException {
 
