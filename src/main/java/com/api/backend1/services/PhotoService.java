@@ -64,6 +64,6 @@ public class PhotoService {
 
             // exclui a foto encontrada
             PhotoModel photo = optionalPhoto.get();
-            photoRepository.deleteById(photo.getId_photo());
+            photoRepository.deleteById(photo.getId());
         }
 }

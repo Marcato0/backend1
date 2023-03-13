@@ -21,7 +21,7 @@ public class PhotoModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id_photo;
+    private UUID id;
 
     @Column(nullable = false, length = 80)
     private String name;

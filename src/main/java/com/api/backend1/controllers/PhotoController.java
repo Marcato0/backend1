@@ -48,8 +48,8 @@ public class PhotoController {
     }
 
 
-    @DeleteMapping("/{id_photo}")
-    public ResponseEntity<Object> deleteImage(@PathVariable (value = "id_photo") UUID id) throws ResourceNotFoundException {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteImage(@PathVariable UUID id) throws ResourceNotFoundException {
         photoService.deletePhoto(id);
         return ResponseEntity.status(HttpStatus.OK).body("Image deleted successfully.");
     }

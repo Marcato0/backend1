@@ -2,7 +2,6 @@ package com.api.backend1.controllers;
 
 
 import com.api.backend1.dtos.ProductDto;
-import com.api.backend1.dtos.ProductWithCulturesDto;
 import com.api.backend1.exceptions.ResourceNotFoundException;
 import com.api.backend1.models.ProductModel;
 import com.api.backend1.services.ProductService;
