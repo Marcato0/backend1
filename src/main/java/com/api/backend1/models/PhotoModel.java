@@ -23,6 +23,10 @@ public class PhotoModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_fk")
+    private ProductModel product;
+
     @Column(nullable = false, length = 80)
     private String name;
     @Column(nullable = false)
@@ -36,9 +40,6 @@ public class PhotoModel implements Serializable {
 
     private byte[] image; // Armazena a imagem em bytes
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "product_fk")
-//    private ProductModel product;
 
 
 

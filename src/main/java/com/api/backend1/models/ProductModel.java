@@ -42,6 +42,10 @@ public class ProductModel implements Serializable {
     @JsonIgnoreProperties("product")
     private List<ProductCultureModel> productCultures = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("product")
+    private List<PhotoModel> photos = new ArrayList<>();
+
 
 
 

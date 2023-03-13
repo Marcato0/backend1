@@ -18,6 +18,7 @@ import java.util.UUID;
 public class ProductDto {
 
     private UUID id;
+
     @NotBlank
     @Size(max=80)
     private String name;
@@ -30,6 +31,9 @@ public class ProductDto {
 
 
     private List<ProductCultureDto> productCultures = new ArrayList<>();
+
+    // lista de IDs das fotos do produto
+    private List<UUID> productPhotos = new ArrayList<>();
 
 
 }

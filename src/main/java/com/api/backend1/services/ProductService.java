@@ -6,9 +6,11 @@ import com.api.backend1.dtos.ProductDto;
 import com.api.backend1.exceptions.DuplicateProductNameException;
 import com.api.backend1.exceptions.ResourceNotFoundException;
 import com.api.backend1.models.CultureModel;
+import com.api.backend1.models.PhotoModel;
 import com.api.backend1.models.ProductCultureModel;
 import com.api.backend1.models.ProductModel;
 import com.api.backend1.repositories.CultureRepository;
+import com.api.backend1.repositories.PhotoRepository;
 import com.api.backend1.repositories.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
@@ -32,6 +34,9 @@ public class ProductService {
 
     @Autowired
     private CultureRepository cultureRepository;
+
+    @Autowired
+    private PhotoRepository photoRepository;
 
 
 
@@ -82,6 +87,20 @@ public class ProductService {
 
         // Associa cada instância de ProductCultureModel ao produto criado
         product.setProductCultures(productCultureModels);
+
+        // Busca as fotos pelo ID e as adiciona à lista de fotos do produto
+        if (productDto.getProductPhotos() != null) {
+            List<PhotoModel> productPhotos = new ArrayList<>();
+            for (UUID photoId : productDto.getProductPhotos()) {
+                Optional<PhotoModel> photoOptional = photoRepository.findById(photoId);
+                if (photoOptional.isPresent()) {
+                    productPhotos.add(photoOptional.get());
+                } else {
+                    throw new ResourceNotFoundException("Photo not found with id: " + photoId);
+                }
+            }
+            product.setPhotos(productPhotos);
+        }
 
         // Salva o novo produto no banco de dados
         return productRepository.save(product);
