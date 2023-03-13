@@ -88,23 +88,28 @@ public class ProductService {
         // Associa cada instância de ProductCultureModel ao produto criado
         product.setProductCultures(productCultureModels);
 
-        // Busca as fotos pelo ID e as adiciona à lista de fotos do produto
-        if (productDto.getProductPhotos() != null) {
-            List<PhotoModel> productPhotos = new ArrayList<>();
-            for (UUID photoId : productDto.getProductPhotos()) {
-                Optional<PhotoModel> photoOptional = photoRepository.findById(photoId);
-                if (photoOptional.isPresent()) {
-                    productPhotos.add(photoOptional.get());
-                } else {
-                    throw new ResourceNotFoundException("Photo not found with id: " + photoId);
-                }
-            }
-            product.setPhotos(productPhotos);
-        }
+        // Adiciona as fotos ao produto
+        addPhotosToProduct(product, productDto.getProductPhotos());
 
         // Salva o novo produto no banco de dados
         return productRepository.save(product);
     }
+
+    private void addPhotosToProduct(ProductModel product, List<UUID> photoIds) throws ResourceNotFoundException {
+        if (photoIds != null) {
+            List<PhotoModel> photos = new ArrayList<>();
+            for (UUID photoId : photoIds) {
+                Optional<PhotoModel> photoOptional = photoRepository.findById(photoId);
+                if (photoOptional.isPresent()) {
+                    photos.add(photoOptional.get());
+                } else {
+                    throw new ResourceNotFoundException("Photo not found with id: " + photoId);
+                }
+            }
+            product.setPhotos(photos);
+        }
+    }
+
 
     // retorna uma lista de todos os produtos salvos no banco de dados
     public List<ProductModel> getAllProducts() {
