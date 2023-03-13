@@ -71,6 +71,23 @@ public class PhotoService {
         return "Product added to photos successfully.";
     }
 
+    public void updateProductInPhoto(UUID photoId, UUID productId) throws ResourceNotFoundException {
+        // Encontra a foto pelo ID
+        PhotoModel photo = photoRepository.findById(photoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Photo not found with id: " + photoId));
+
+        // Encontra o produto pelo ID
+        ProductModel product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productId));
+
+        // Atualiza o produto associado à foto
+        photo.setProduct(product);
+
+        // Salva a foto com o produto atualizado no banco de dados
+        photoRepository.save(photo);
+    }
+
+
 
     public List<PhotoModel> findAll() {
             return photoRepository.findAll();

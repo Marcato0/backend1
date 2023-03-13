@@ -1,6 +1,7 @@
 package com.api.backend1.controllers;
 
 
+import com.api.backend1.dtos.ProductDto;
 import com.api.backend1.exceptions.ResourceNotFoundException;
 import com.api.backend1.models.PhotoModel;
 import com.api.backend1.services.PhotoService;
@@ -61,6 +62,21 @@ public class PhotoController {
         photoService.deletePhoto(id);
         return ResponseEntity.status(HttpStatus.OK).body("Image deleted successfully.");
     }
+
+
+    @PutMapping("/photos/{id}/product")
+    public ResponseEntity<String> updateProductInPhoto(@PathVariable("id") UUID photoId,
+                                                       @RequestBody ProductDto productDTO) {
+        try {
+            photoService.updateProductInPhoto(photoId, productDTO.getId());
+            return ResponseEntity.ok("Product updated successfully for photo with id " + photoId);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+
+
 
 
 
