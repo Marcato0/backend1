@@ -5,6 +5,7 @@ import com.api.backend1.exceptions.ResourceNotFoundException;
 import com.api.backend1.models.PhotoModel;
 import com.api.backend1.models.ProductModel;
 import com.api.backend1.repositories.PhotoRepository;
+import com.api.backend1.repositories.ProductRepository;
 import com.api.backend1.utils.ImageUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class PhotoService {
 
     @Autowired
     PhotoRepository photoRepository;
+
+    @Autowired
+    ProductRepository productRepository;
 
         public String uploadImage(MultipartFile file) throws IOException {
 
@@ -45,7 +49,23 @@ public class PhotoService {
             return images;
         }
 
-        public List<PhotoModel> findAll() {
+    public void addProductToPhotos(UUID productId, List<UUID> photoIds) throws ResourceNotFoundException {
+        // Busca o produto pelo id
+        ProductModel product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productId));
+
+        // Busca as fotos pelo id e FK de produto null
+        List<PhotoModel> photos = photoRepository.findByIdInAndProductIsNull(photoIds);
+
+        // Adiciona a FK do produto às fotos encontradas
+        photos.forEach(photo -> photo.setProduct(product));
+
+        // Salva as alterações no banco de dados
+        photoRepository.saveAll(photos);
+    }
+
+
+    public List<PhotoModel> findAll() {
             return photoRepository.findAll();
         }
 

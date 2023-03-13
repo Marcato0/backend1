@@ -33,6 +33,13 @@ public class PhotoController {
         return ResponseEntity.status(HttpStatus.OK).body(uploadImage);
     }
 
+    @PostMapping("/product/{productId}/photos")
+    public ResponseEntity<Void> addProductToPhotos(@PathVariable UUID productId, @RequestBody List<UUID> photoIds) throws ResourceNotFoundException {
+        photoService.addProductToPhotos(productId, photoIds);
+        return ResponseEntity.noContent().build();
+    }
+
+
     @GetMapping
     public ResponseEntity<List<PhotoModel>> getAllPhoto(){
         return ResponseEntity.status(HttpStatus.OK).body(photoService.findAll());
