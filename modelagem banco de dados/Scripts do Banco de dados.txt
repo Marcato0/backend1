@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS photo(
 		image BYTEA NOT NULL,
 		name VARCHAR(80) NOT NULL,
 		TYPE VARCHAR NOT NULL,
-		product_fk UUID NOT NULL,
+		product_fk UUID,
 	   
 	   	FOREIGN KEY (product_fk)
          		REFERENCES product (id)
