@@ -1,5 +1,6 @@
 package com.api.backend1.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Type;
@@ -25,6 +26,7 @@ public class PhotoModel implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_fk")
+    @JsonIgnore
     private ProductModel product;
 
     @Column(nullable = false, length = 80)
@@ -38,8 +40,8 @@ public class PhotoModel implements Serializable {
         return this.image;
     }
 
+    @JsonIgnore
     private byte[] image; // Armazena a imagem em bytes
-
 
 
 

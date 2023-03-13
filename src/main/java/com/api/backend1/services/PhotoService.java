@@ -49,7 +49,7 @@ public class PhotoService {
             return images;
         }
 
-    public void addProductToPhotos(UUID productId, List<UUID> photoIds) throws ResourceNotFoundException {
+    public String addProductToPhotos(UUID productId, List<UUID> photoIds) throws ResourceNotFoundException {
         // Busca o produto pelo id
         ProductModel product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productId));
@@ -57,11 +57,18 @@ public class PhotoService {
         // Busca as fotos pelo id e FK de produto null
         List<PhotoModel> photos = photoRepository.findByIdInAndProductIsNull(photoIds);
 
+        // Verifica se todas as fotos foram encontradas
+        if (photos.size() != photoIds.size()) {
+            throw new ResourceNotFoundException("Some photos were not found or already have a product associated with them.");
+        }
+
         // Adiciona a FK do produto às fotos encontradas
         photos.forEach(photo -> photo.setProduct(product));
 
         // Salva as alterações no banco de dados
         photoRepository.saveAll(photos);
+
+        return "Product added to photos successfully.";
     }
 
 

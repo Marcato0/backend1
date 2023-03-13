@@ -34,9 +34,10 @@ public class PhotoController {
     }
 
     @PostMapping("/product/{productId}/photos")
-    public ResponseEntity<Void> addProductToPhotos(@PathVariable UUID productId, @RequestBody List<UUID> photoIds) throws ResourceNotFoundException {
-        photoService.addProductToPhotos(productId, photoIds);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> addProductToPhotos(@PathVariable UUID productId,
+                                                     @RequestBody List<UUID> photoIds) throws ResourceNotFoundException, ResourceNotFoundException {
+        String message = photoService.addProductToPhotos(productId, photoIds);
+        return ResponseEntity.ok(message);
     }
 
 
