@@ -15,11 +15,18 @@ public class SwaggerConfiguration {
     @Bean
     public Docket swagger() {
         return new Docket(DocumentationType.SWAGGER_2)
+
+                // Configura quais controllers devem ser documentados
                 .select()
                 .apis(RequestHandlerSelectors.any())
+
+                // Configura quais endpoints devem ser documentados
                 .paths(PathSelectors.any())
                 .build()
+
+                // Define um mapeamento de caminho para o Swagger UI
                 .pathMapping("/")
+
                 .apiInfo(new ApiInfoBuilder()
                         .title("Trevo Project")
                         .description("Trevo agro api")

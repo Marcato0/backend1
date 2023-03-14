@@ -26,8 +26,13 @@ public class BudgetService {
     private ProductRepository productRepository;
 
 
-    // cria um orçamento a partir do DTO de orçamento e o salva no banco de dados
     @Transactional
+    /**
+     * Cria um novo orçamento com base nos dados fornecidos no objeto BudgetDto.
+     * @param budgetDto objeto BudgetDto com os dados do novo orçamento.
+     * @return o objeto BudgetModel criado e salvo no repositório de orçamentos.
+     * @throws ResourceNotFoundException se o produto referenciado no objeto BudgetDto não existir.
+     */
     public BudgetModel createBudget(BudgetDto budgetDto) throws ResourceNotFoundException {
 
         // procura o produto com base no ID fornecido no DTO de orçamento
@@ -58,20 +63,37 @@ public class BudgetService {
         return budgetRepository.save(budget);
     }
 
-    // retorna uma lista de todos os orçamentos salvos no banco de dados
+
+    /**
+     * Retorna uma lista de todas as cotações salvas no banco de dados.
+     *
+     * @return uma lista de todas as cotações salvas no banco de dados
+     */
     public List<BudgetModel> findAll() {
         return budgetRepository
                 .findAll();
     }
 
-    // retorna uma lista de orçamentos cujos nomes contêm o nome(do solicitante) ou parte dele fornecido
+
+    /**
+     * Busca todas as cotações cujo nome contenha a string fornecida.
+     *
+     * @param name a string que deve ser contida no nome das cotações buscadas
+     * @return uma lista de todas as cotações cujo nome contenha a string fornecida
+     * @throws ResourceNotFoundException se nenhuma cotação for encontrada com o nome fornecido
+     */
     public List<BudgetModel> findByNameContaining(String name) {
         return budgetRepository
                 .findByNameContaining(name);
     }
 
-    // exclui um orçamento com o ID fornecido
+
     @Transactional
+    /**
+     * Exclui a cotação com o id fornecido.
+     * @param id o id da cotação a ser excluída.
+     * @throws ResourceNotFoundException se não houver cotação com o id fornecido.
+     */
     public void deleteBudget(UUID id) throws ResourceNotFoundException {
 
         //busca o orçamento pelo id
@@ -88,8 +110,16 @@ public class BudgetService {
     }
 
 
-    // atualiza um orçamento com o ID fornecido com base no DTO de orçamento fornecido
+
     @Transactional
+    /**
+     * Atualiza um orçamento existente com base em seu ID e no DTO de orçamento fornecido.
+     * @param id ID do orçamento a ser atualizado.
+     * @param budgetDto DTO de orçamento contendo as informações atualizadas.
+     * @return o modelo de orçamento atualizado.
+     * @throws ResourceNotFoundException se o orçamento não for encontrado com o ID fornecido ou
+     * o produto não for encontrado com o ID fornecido no DTO de orçamento.
+     */
     public BudgetModel updateBudget(UUID id, BudgetDto budgetDto) throws ResourceNotFoundException {
 
         Optional<BudgetModel> optionalBudget = budgetRepository.findById(id);

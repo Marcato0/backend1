@@ -3,11 +3,8 @@ package com.api.backend1.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Type;
-import org.springframework.stereotype.Controller;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
@@ -40,9 +37,10 @@ public class PhotoModel implements Serializable {
         return this.image;
     }
 
+    /**
+     * @JsonIgnore: indica que a propriedade product não será serializada para JSON.
+     */
     @JsonIgnore
     private byte[] image; // Armazena a imagem em bytes
-
-
 
 }

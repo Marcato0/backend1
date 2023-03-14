@@ -1,6 +1,6 @@
 package com.api.backend1.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,6 +38,12 @@ public class ProductModel implements Serializable {
     @Column(nullable = false)
     private boolean status; // status do produto (ativo/inativo)
 
+    /**
+     * se remover um objeto ProductCultureModel ou PhotoModel da lista productCultures,
+     * ou remover photos de ProductModel o provedor JPA irá automaticamente removê-lo do banco de dados.
+     * @JsonIgnoreProperties Ignora a propriedade 'product' na serialização para evitar recursão infinita
+     */
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("product")
     private List<ProductCultureModel> productCultures = new ArrayList<>();
@@ -45,8 +51,6 @@ public class ProductModel implements Serializable {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("product")
     private List<PhotoModel> photos = new ArrayList<>();
-
-
 
 
 }

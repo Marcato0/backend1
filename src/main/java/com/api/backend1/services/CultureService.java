@@ -24,8 +24,15 @@ public class CultureService {
     CultureRepository cultureRepository;
 
 
-    // cria uma cultura a partir do DTO de culturas e salva no banco de dados
+
     @Transactional
+    /**
+     * Cria uma nova cultura com base no DTO fornecido e a salva no banco de dados.
+     *
+     * @param cultureDto o DTO que contém as informações da cultura a ser criada
+     * @return a cultura criada e salva no banco de dados
+     * @throws DuplicateProductNameException se já existir uma cultura com o mesmo nome
+     */
     public CultureModel createCulture(CultureDto cultureDto) throws ResourceNotFoundException {
 
 
@@ -43,12 +50,25 @@ public class CultureService {
         return cultureRepository.save(culture);
     }
 
-    // retorna uma lista de todas as culturas salvas no banco de dados
+
+    /**
+     * Retorna uma lista de todas as culturas salvas no banco de dados.
+     *
+     * @return uma lista de todas as culturas salvas no banco de dados
+     */
     public List<CultureModel> findAll() {
         return cultureRepository
                 .findAll();
     }
 
+
+    /**
+     * Busca todas as culturas cujo nome contenha a string fornecida.
+     *
+     * @param name a string que deve ser contida no nome das culturas buscadas
+     * @return uma lista de todas as culturas cujo nome contenha a string fornecida
+     * @throws ResourceNotFoundException se nenhuma cultura for encontrada com o nome fornecido
+     */
     public List<CultureModel> findByNameContaining(String name) {
 
         //busca a cultura pelo id
@@ -63,8 +83,13 @@ public class CultureService {
                 .findByNameContaining(name);
     }
 
-    // exclui uma cultura com o ID fornecido
+
     @Transactional
+    /**
+     * Exclui a cultura com o id fornecido.
+     * @param id o id da cultura a ser excluída.
+     * @throws ResourceNotFoundException se não houver cultura com o id fornecido.
+     */
     public void deleteCulture(UUID id) throws ResourceNotFoundException {
 
         //busca a cultura pelo id
@@ -81,8 +106,15 @@ public class CultureService {
         cultureRepository.deleteById(culture.getId());
     }
 
-    // atualiza um produto com o ID fornecido com base no DTO de produto
+
     @Transactional
+    /**
+     * Atualiza os dados da cultura com o id fornecido com base nos dados fornecidos.
+     * @param id o id da cultura a ser atualizada.
+     * @param cultureDto um objeto CultureDto contendo os novos dados da cultura.
+     * @return um objeto CultureModel representando a cultura atualizada.
+     * @throws ResourceNotFoundException se não houver cultura com o id fornecido.
+     */
     public CultureModel updateCulture(UUID id, CultureDto cultureDto) throws ResourceNotFoundException {
 
         Optional<CultureModel> optionalCulture = cultureRepository.findById(id);
@@ -98,16 +130,11 @@ public class CultureService {
         BeanUtils.copyProperties(cultureDto, culture);
 
 
-
         //Buscar id
         culture.setId(optionalCulture.get().getId());
 
         // salva no banco de dados
         return cultureRepository.save(culture);
-        
     }
-
-
-
 
 }

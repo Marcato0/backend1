@@ -27,7 +27,7 @@ public class BudgetModel implements Serializable {
     private LocalDate request_date;
 
     @Column(nullable = false, length = 80)
-    private String name;
+    private String name; //Esse nome é da pessoa que vai solicitar o orçamento
 
     @Column(nullable = false, length = 50)
     private String email;

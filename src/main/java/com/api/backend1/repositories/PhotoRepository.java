@@ -14,9 +14,6 @@ import java.util.UUID;
 public interface PhotoRepository extends JpaRepository<PhotoModel, UUID> {
     Optional<PhotoModel> findByName(String name);
 
-    boolean existsByName(String name);
-
     List<PhotoModel> findByIdInAndProductIsNull(List<UUID> photoIds);
 
-//
 }
