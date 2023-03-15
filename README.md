@@ -3,7 +3,7 @@
 - Para acessar a documentação da API com swagger [clique aqui.](http://localhost:8080/swagger-ui/index.html)
 - Para acessar o Trello [clique aqui.](https://trello.com/b/0Pf03pNd/backend-1)
 - Para acessar a diagrama do banco de dados [clique aqui.](https://raw.githubusercontent.com/Marcato0/backend1/master/modelagem%20banco%20de%20dados/Diagrama%20DB.png)
-
+- Para acessar o script do banco de dados s [clique aqui.](https://github.com/Marcato0/backend1/blob/master/modelagem%20banco%20de%20dados/Scripts%20do%20Banco%20de%20dados.txt)
 
 ## Entregas do Projeto
 
