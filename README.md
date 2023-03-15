@@ -2,7 +2,14 @@
 
 ## Sobre o Projeto
 
-Este projeto
+Este projeto consiste em construir uma API JAVA com Spring Boot para suportar o cadastro e as consultas dos produtos da emprea Trevo para pulverização de fertilizantes com barras.
+
+A criação do Banco de Dados e suas tabelas deve ser a partir de scripts SQL. O banco de dados Utilizado foi PostgreSQL.
+
+A API foi documentada com Swagger e está disponível quando a aplicação estiver em execução.
+
+Para rodar o Projeto é preciso ter o JAVA JDK 11
+
 - Para acessar a documentação da API com swagger [clique aqui.](http://localhost:8080/swagger-ui/index.html)
 - Para acessar o Trello [clique aqui.](https://trello.com/b/0Pf03pNd/backend-1)
 - Para acessar a diagrama do banco de dados [clique aqui.](https://raw.githubusercontent.com/Marcato0/backend1/master/modelagem%20banco%20de%20dados/Diagrama%20DB.png)
