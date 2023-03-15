@@ -2,7 +2,7 @@ package com.api.backend1.services;
 
 
 import com.api.backend1.dtos.CultureDto;
-import com.api.backend1.exceptions.DuplicateProductNameException;
+import com.api.backend1.exceptions.DuplicateObjNameException;
 import com.api.backend1.exceptions.ResourceNotFoundException;
 import com.api.backend1.models.CultureModel;
 import com.api.backend1.repositories.CultureRepository;
@@ -31,14 +31,14 @@ public class CultureService {
      *
      * @param cultureDto o DTO que contém as informações da cultura a ser criada
      * @return a cultura criada e salva no banco de dados
-     * @throws DuplicateProductNameException se já existir uma cultura com o mesmo nome
+     * @throws DuplicateObjNameException se já existir uma cultura com o mesmo nome
      */
     public CultureModel createCulture(CultureDto cultureDto) throws ResourceNotFoundException {
 
 
         //Verificar se tem alguma cultura com o mesmo nome
         if (cultureRepository.existsByName(cultureDto.getName())) {
-            throw new DuplicateProductNameException("Name of culture is already in use!");
+            throw new DuplicateObjNameException("Name of culture is already in use!");
         }
 
         // Criar uma Cultura com base no DTO

@@ -3,7 +3,7 @@ package com.api.backend1.services;
 
 import com.api.backend1.dtos.ProductCultureDto;
 import com.api.backend1.dtos.ProductDto;
-import com.api.backend1.exceptions.DuplicateProductNameException;
+import com.api.backend1.exceptions.DuplicateObjNameException;
 import com.api.backend1.exceptions.ResourceNotFoundException;
 import com.api.backend1.models.CultureModel;
 import com.api.backend1.models.ProductCultureModel;
@@ -43,13 +43,13 @@ public class ProductService {
      * @param productDto objeto DTO contendo as informações do novo produto a ser criado
      * @return o novo objeto ProductModel criado
      * @throws ResourceNotFoundException caso a entidade CultureModel não seja encontrada pelo id informado no DTO
-     * @throws DuplicateProductNameException caso já exista um produto com o mesmo nome
+     * @throws DuplicateObjNameException caso já exista um produto com o mesmo nome
      */
     public ProductModel createProduct(ProductDto productDto) throws ResourceNotFoundException {
 
         // Verifica se já existe um produto com o mesmo nome
         if (productRepository.existsByName(productDto.getName())) {
-            throw new DuplicateProductNameException("Name of product is already in use!");
+            throw new DuplicateObjNameException("Name of product is already in use!");
         }
 
         // Cria uma instância de ProductModel
