@@ -2,13 +2,32 @@
 
 ## Sobre o Projeto
 
-Este projeto consiste em construir uma API JAVA com Spring Boot para suportar o cadastro e as consultas dos produtos da emprea Trevo para pulverização de fertilizantes com barras.
+Este projeto consiste em construir uma API JAVA com Spring Boot para suportar o cadastro e as consultas dos produtos da emprea Trevo para pulverização de fertilizantes com barras. Uma pessoa pode fazer varios orçamentos de varios produtos, cada produto tem:
+  
+  - nome
+  - tipo de cultura a ser utilizada
+    - tamanho da área suportada
+   - descrição do produto
+  - lista de fotos do produto
+  - data de cadastro
+  - status do produto
 
-A criação do Banco de Dados e suas tabelas deve ser a partir de scripts SQL. O banco de dados Utilizado foi PostgreSQL.
+Além disso quando uma pessoa soliciar uma cotação eu preciso saber
 
-A API foi documentada com Swagger e está disponível quando a aplicação estiver em execução.
+- nome da pessoa interessada
+- email
+- e o produto que tem interesse
 
-Para rodar o Projeto é preciso ter o JAVA JDK 11
+## Informações Adicionais.
+
+> A criação do Banco de Dados e suas tabelas deve ser a partir de scripts SQL. O banco de dados Utilizado foi PostgreSQL.
+
+> A API foi documentada com Swagger e está disponível quando a aplicação estiver em execução.
+  
+> Para rodar o Projeto é preciso ter o JAVA JDK 11, usar de prefenci a IDE IntelliJ IDEA.
+
+
+## Documentação e modelagem
 
 - Para acessar a documentação da API com swagger [clique aqui.](http://localhost:8080/swagger-ui/index.html)
 - Para acessar o Trello [clique aqui.](https://trello.com/b/0Pf03pNd/backend-1)
@@ -26,3 +45,13 @@ Para rodar o Projeto é preciso ter o JAVA JDK 11
 - [x] Entrega 07 - Documentação do Código
 - [ ] Entrega 08 - Testes
 
+## Conhecimentos Desejaveis para entender o Projeto
+
+-  Linguagem Java
+-  Plataforma Jakarta EE
+-  Spring IoC e Dependency Injection
+-  Spring boot 3.0.2
+-  Spring Data JPA
+-  Spring Web MVC
+-  Banco de Dados Relacional
+-  Java Persistence API – JPA
