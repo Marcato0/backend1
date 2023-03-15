@@ -13,5 +13,5 @@
 - [x] Entrega 04 - Script do Banco de Dados
 - [x] Entrega 05 - Criação de Models, DTOs, Respositories, Controllers e Sercices
 - [x] Entrega 06 - Criação da API
-- [x] Entrega 07 - Docuemntação do Código
+- [x] Entrega 07 - Documentação do Código
 
