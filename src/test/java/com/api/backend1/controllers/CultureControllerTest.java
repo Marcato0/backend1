@@ -1,26 +1,22 @@
 package com.api.backend1.controllers;
 
-
 import com.api.backend1.dtos.CultureDto;
 import com.api.backend1.models.CultureModel;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@DataJpaTest
-
-//Usar meu banco de dados para os testes
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-
-//Usar application-test.properties
+@SpringJUnitConfig
+@SpringBootTest
 @ActiveProfiles("test")
+@Transactional
 class CultureControllerTest {
 
     @Autowired
@@ -31,10 +27,8 @@ class CultureControllerTest {
 
     @Test
     @DisplayName("Cadastrar uma cultura")
-    @Transactional
     void save() {
         // Cria um objeto CultureDto para enviar ao método save() do controller
-        CultureDto cultureDto = new CultureDto();
         cultureDto.setName("Milho");
 
         // Chama o método save() do controller passando o objeto CultureDto
@@ -42,7 +36,7 @@ class CultureControllerTest {
 
         // Verifica se o objeto retornado não é nulo
         assertNotNull(savedCulture);
-        assertNotNull(savedCulture.getName());
+        assertNotNull(savedCulture.getId());
         assertEquals("Milho", savedCulture.getName());
     }
 

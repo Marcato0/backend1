@@ -11,5 +11,5 @@ import java.util.UUID;
 @Repository
 public interface BudgetRepository extends JpaRepository<BudgetModel, UUID> {
 
-    List<BudgetModel> findByNameContaining(String name);
+    List<BudgetModel> findByNameContainingIgnoreCase(String name);
 }

@@ -47,8 +47,11 @@ public class ProductService {
      */
     public ProductModel createProduct(ProductDto productDto) throws ResourceNotFoundException {
 
+        // Remove espaços em branco no início e no fim do nome do produto
+        productDto.setName(productDto.getName().trim());
+
         // Verifica se já existe um produto com o mesmo nome
-        if (productRepository.existsByName(productDto.getName())) {
+        if (productRepository.findByNameIgnoreCase(productDto.getName()).isPresent()) {
             throw new DuplicateObjNameException("Name of product is already in use!");
         }
 
@@ -116,15 +119,17 @@ public class ProductService {
      */
     public List<ProductModel> findByNameContaining(String name) {
 
-        //busca o produto pelo id
-        List<ProductModel> products= productRepository.findByNameContaining(name);
+        String trimmedName = name.trim();
+
+        //busca o produto pelo nome
+        List<ProductModel> optionalProduct = productRepository.findByNameContainingIgnoreCase(trimmedName);
 
         // verifica se o produto existe
-        if (products.isEmpty()) {
+        if (optionalProduct.isEmpty()) {
             throw new ResourceNotFoundException("Product not found with name containing: " + name);
         }
 
-        return products;
+        return optionalProduct;
     }
 
 

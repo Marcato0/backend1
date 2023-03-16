@@ -1,11 +1,5 @@
 package com.api.backend1.services;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-
 import com.api.backend1.dtos.BudgetDto;
 import com.api.backend1.exceptions.ResourceNotFoundException;
 import com.api.backend1.models.BudgetModel;
@@ -15,6 +9,11 @@ import com.api.backend1.repositories.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class BudgetService {
@@ -83,8 +82,17 @@ public class BudgetService {
      * @throws ResourceNotFoundException se nenhuma cotação for encontrada com o nome fornecido
      */
     public List<BudgetModel> findByNameContaining(String name) {
-        return budgetRepository
-                .findByNameContaining(name);
+
+        String trimmedName = name.trim();
+
+        //busca o produto pelo nome
+        List<BudgetModel> optionalBudget = budgetRepository.findByNameContainingIgnoreCase(trimmedName);
+
+        // verifica se o produto existe
+        if (optionalBudget.isEmpty()) {
+            throw new ResourceNotFoundException("Budget not found with name containing: " + name);
+        }
+        return optionalBudget;
     }
 
 

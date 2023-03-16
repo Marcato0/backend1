@@ -35,9 +35,12 @@ public class CultureService {
      */
     public CultureModel createCulture(CultureDto cultureDto) throws ResourceNotFoundException {
 
+        // Remove espaços em branco no início e no fim do nome da cultura
+        cultureDto.setName(cultureDto.getName().trim());
+
 
         //Verificar se tem alguma cultura com o mesmo nome
-        if (cultureRepository.existsByName(cultureDto.getName())) {
+        if (cultureRepository.findByNameIgnoreCase(cultureDto.getName()).isPresent()) {
             throw new DuplicateObjNameException("Name of culture is already in use!");
         }
 
@@ -71,16 +74,19 @@ public class CultureService {
      */
     public List<CultureModel> findByNameContaining(String name) {
 
-        //busca a cultura pelo id
-        List<CultureModel> optionalCulture = cultureRepository.findByNameContaining(name);
+        // Remove os espaços em branco no início e no final da string
+        String trimmedName = name.trim();
+
+        //busca a cultura pelo nome
+        List<CultureModel> optionalCulture = cultureRepository.findByNameContainingIgnoreCase(trimmedName);
+
 
         // verifica se a cultura existe
         if (optionalCulture.isEmpty()) {
             throw new ResourceNotFoundException("Culture not found with name containing: " + name);
         }
 
-        return cultureRepository
-                .findByNameContaining(name);
+        return optionalCulture;
     }
 
 

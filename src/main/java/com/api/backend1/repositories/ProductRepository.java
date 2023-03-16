@@ -12,7 +12,7 @@ import java.util.UUID;
 @Repository
 public interface ProductRepository extends JpaRepository<ProductModel, UUID> {
 
-    List<ProductModel> findByNameContaining(String name);
+    List<ProductModel> findByNameContainingIgnoreCase(String name);
 
-    boolean existsByName(String name);
+    Optional<Object> findByNameIgnoreCase(String name);
 }
