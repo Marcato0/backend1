@@ -24,7 +24,7 @@ Além disso quando uma pessoa soliciar uma cotação eu preciso saber
 
 > A API foi documentada com Swagger e está disponível quando a aplicação estiver em execução.
   
-> Para rodar o Projeto é preciso ter o JAVA JDK 11, usar de prefenci a IDE IntelliJ IDEA.
+> Para rodar o Projeto é preciso ter o JAVA JDK 17, usar de prefenci a IDE IntelliJ IDEA.
 
 
 ## Documentação e modelagem
