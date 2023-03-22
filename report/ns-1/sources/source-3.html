@@ -1,0 +1,211 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PhotoController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.api.backend1.controllers</a>
+</div>
+
+<h1>Coverage Summary for Class: PhotoController (com.api.backend1.controllers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PhotoController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14,3%
+  </span>
+  <span class="absValue">
+    (1/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    5,9%
+  </span>
+  <span class="absValue">
+    (1/17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.api.backend1.controllers;
+&nbsp;
+&nbsp;import com.api.backend1.dtos.ProductDto;
+&nbsp;import com.api.backend1.exceptions.ResourceNotFoundException;
+&nbsp;import com.api.backend1.models.PhotoModel;
+&nbsp;import com.api.backend1.services.PhotoService;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.MediaType;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;import org.springframework.web.multipart.MultipartFile;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.List;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@CrossOrigin(origins = &quot;*&quot;, maxAge = 3600)
+&nbsp;
+&nbsp;@RequestMapping(&quot;/photo&quot;)
+<b class="fc">&nbsp;public class PhotoController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    PhotoService photoService;
+&nbsp;
+&nbsp;
+&nbsp;    @PostMapping
+&nbsp;    /**
+&nbsp;     * Método público que recebe um quivo de imagem via RequestParam
+&nbsp;     * e enviar para o serviço de fotos realizar o upload
+&nbsp;     */
+&nbsp;    public ResponseEntity&lt;?&gt; uploadImage (@RequestParam(&quot;image&quot;) MultipartFile file) throws IOException {
+<b class="nc">&nbsp;        String uploadImage = photoService.uploadImage(file);</b>
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.OK).body(uploadImage);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping(&quot;/product/{productId}/photos&quot;)
+&nbsp;    /**
+&nbsp;     * Este método trata o upload de imagens para um produto específico
+&nbsp;     */
+&nbsp;    public ResponseEntity&lt;String&gt; addProductToPhotos(@PathVariable UUID productId,
+&nbsp;                                                     @RequestBody List&lt;UUID&gt; photoIds) throws ResourceNotFoundException {
+<b class="nc">&nbsp;        String message = photoService.addProductToPhotos(productId, photoIds);</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok(message);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @GetMapping
+&nbsp;    /**
+&nbsp;     * Método público que retorna uma lista de objetos PhotoModel.
+&nbsp;     *
+&nbsp;     * @return objeto ResponseEntity com status HTTP OK e corpo da resposta contendo a lista de objetos PhotoModel.
+&nbsp;     */
+&nbsp;    public ResponseEntity&lt;List&lt;PhotoModel&gt;&gt; getAllPhoto(){
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.OK).body(photoService.findAll());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(&quot;/{name}&quot;)
+&nbsp;    /**
+&nbsp;     * Método público que recebe um valor &#39;name&#39; e envia para o service de downloadImage onde vai mostrar a imagem.
+&nbsp;     *
+&nbsp;     * @param name valor a ser pesquisado no campo &#39;name&#39; dos objetos PhotoModel.
+&nbsp;     * @return objeto ResponseEntity com status HTTP OK e corpo da resposta contendo a imagem.
+&nbsp;     */
+&nbsp;    public ResponseEntity&lt;?&gt; downloadImage(@PathVariable String name){
+<b class="nc">&nbsp;        byte[] imageDownload = photoService.downloadImage(name);</b>
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.OK)</b>
+<b class="nc">&nbsp;                    .contentType(MediaType</b>
+<b class="nc">&nbsp;                            .valueOf(&quot;image/png&quot;))</b>
+<b class="nc">&nbsp;                .body(imageDownload);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @DeleteMapping(&quot;/{id}&quot;)
+&nbsp;    /**
+&nbsp;     * Método público que recebe o ID de um objeto PhotoModel e o remove do banco de dados.
+&nbsp;     *
+&nbsp;     * @param id ID do objeto CultureModel a ser removido.
+&nbsp;     * @return objeto ResponseEntity com status HTTP OK e corpo da resposta contendo a mensagem &#39;Image deleted successfully.&#39;.
+&nbsp;     */
+&nbsp;    public ResponseEntity&lt;Object&gt; deleteImage(@PathVariable UUID id) throws ResourceNotFoundException {
+<b class="nc">&nbsp;        photoService.deletePhoto(id);</b>
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.OK).body(&quot;Image deleted successfully.&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @PutMapping(&quot;/photos/{id}/product&quot;)
+&nbsp;    /**
+&nbsp;     * Método público que recebe o ID de um objeto PhotoModel e um objeto ProductDto enviado pelo cliente via HTTP request body.
+&nbsp;     * O método atualiza o campo product_fk do objeto CultureModel com base nas informações contidas no objeto ProductDto.
+&nbsp;     *
+&nbsp;     * @param id ID do objeto PhotoModel a ser atualizado.
+&nbsp;     * @param cultureDto objeto ProductDto enviado pelo cliente via HTTP request body.
+&nbsp;     * @return objeto ResponseEntity com status HTTP OK e corpo da resposta &quot;Product updated successfully&quot;
+&nbsp;     * caso a foto ou produto não for encontardo retornar erro NOT_FOUND e a mensagem dizendo o que não foi encontrado.
+&nbsp;     */
+&nbsp;    public ResponseEntity&lt;String&gt; updateProductInPhoto(@PathVariable(&quot;id&quot;) UUID photoId,
+&nbsp;                                                       @RequestBody ProductDto productDTO) {
+&nbsp;        try {
+<b class="nc">&nbsp;            photoService.updateProductInPhoto(photoId, productDTO.getId());</b>
+<b class="nc">&nbsp;            return ResponseEntity.ok(&quot;Product updated successfully for photo with id &quot; + photoId);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (ResourceNotFoundException e) {</b>
+<b class="nc">&nbsp;            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-22 13:05</div>
+</div>
+</body>
+</html>

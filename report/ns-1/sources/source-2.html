@@ -1,0 +1,197 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CultureController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.api.backend1.controllers</a>
+</div>
+
+<h1>Coverage Summary for Class: CultureController (com.api.backend1.controllers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CultureController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.api.backend1.controllers;
+&nbsp;
+&nbsp;
+&nbsp;import com.api.backend1.dtos.CultureDto;
+&nbsp;import com.api.backend1.exceptions.ResourceNotFoundException;
+&nbsp;import com.api.backend1.models.CultureModel;
+&nbsp;import com.api.backend1.services.CultureService;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@CrossOrigin(origins = &quot;*&quot;, maxAge = 3600)
+&nbsp;@RequestMapping(&quot;/culture&quot;)
+<b class="fc">&nbsp;public class CultureController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    CultureService cultureService;
+&nbsp;
+&nbsp;
+&nbsp;    @PostMapping
+&nbsp;    /**
+&nbsp;     * Método público que recebe um objeto do tipo CultureDto via HTTP request body
+&nbsp;     * e retorna um objeto do tipo CultureModel.
+&nbsp;     *
+&nbsp;     * @param cultureDto objeto CultureDto enviado pelo cliente via HTTP request body.
+&nbsp;     * @return objeto CultureModel criado.
+&nbsp;     */
+&nbsp;    public CultureModel save(@RequestBody CultureDto cultureDto) {
+<b class="fc">&nbsp;        return cultureService.createCulture(cultureDto);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @GetMapping
+&nbsp;    /**
+&nbsp;     * Método público que retorna uma lista de objetos CultureModel.
+&nbsp;     *
+&nbsp;     * @return objeto ResponseEntity com status HTTP OK e corpo da resposta contendo a lista de objetos CultureModel.
+&nbsp;     */
+&nbsp;    public ResponseEntity&lt;List&lt;CultureModel&gt;&gt; getAllCulture() {
+<b class="fc">&nbsp;        return ResponseEntity.status(HttpStatus.OK)</b>
+<b class="fc">&nbsp;                .body(cultureService</b>
+<b class="fc">&nbsp;                        .findAll());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(&quot;/search/{name}&quot;)
+&nbsp;    /**
+&nbsp;     * Método público que recebe um valor &#39;name&#39; e retorna uma lista de objetos CultureModel que contém esse valor no campo &#39;name&#39;.
+&nbsp;     *
+&nbsp;     * @param name valor a ser pesquisado no campo &#39;name&#39; dos objetos CultureModel.
+&nbsp;     * @return objeto ResponseEntity com status HTTP OK e corpo da resposta contendo a lista de objetos CultureModel.
+&nbsp;     */
+&nbsp;    public ResponseEntity&lt;List&lt;CultureModel&gt;&gt; findByNameContaining(@PathVariable String name) {
+&nbsp;        /**
+&nbsp;         * Chama o metodo findByNameContaining do service que tem uma lista de culturas com o valor de &#39;name&#39; no campo name do model
+&nbsp;         * O resultado dessa busca é armazenado numa lista de objetos chamada cultures.
+&nbsp;         */
+<b class="fc">&nbsp;        List&lt;CultureModel&gt; cultures = cultureService.findByNameContaining(name);</b>
+<b class="fc">&nbsp;        return ResponseEntity.status(HttpStatus.OK).body(cultures);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @DeleteMapping(&quot;/{id}&quot;)
+&nbsp;    /**
+&nbsp;     * Método público que recebe o ID de um objeto CultureModel e o remove do banco de dados.
+&nbsp;     *
+&nbsp;     * @param id ID do objeto CultureModel a ser removido.
+&nbsp;     * @return objeto ResponseEntity com status HTTP OK e corpo da resposta contendo a mensagem &#39;Culture deleted successfully.&#39;.
+&nbsp;     */
+&nbsp;    public ResponseEntity&lt;Object&gt; deleteCulture(@PathVariable UUID id) throws ResourceNotFoundException {
+<b class="fc">&nbsp;        cultureService.deleteCulture(id);</b>
+<b class="fc">&nbsp;        return ResponseEntity.status(HttpStatus.OK).body(&quot;Culture deleted successfully.&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PutMapping(&quot;/{id}&quot;)
+&nbsp;    /**
+&nbsp;     * Método público que recebe o ID de um objeto CultureModel e um objeto CultureDto enviado pelo cliente via HTTP request body.
+&nbsp;     * O método atualiza os campos do objeto CultureModel com base nas informações contidas no objeto CultureDto.
+&nbsp;     *
+&nbsp;     * @param id ID do objeto CultureModel a ser atualizado.
+&nbsp;     * @param cultureDto objeto CultureDto enviado pelo cliente via HTTP request body.
+&nbsp;     * @return objeto ResponseEntity com status HTTP OK e corpo da resposta contendo o objeto CultureModel atualizado.
+&nbsp;     */
+&nbsp;    public ResponseEntity&lt;CultureModel&gt; updateCulture(@PathVariable UUID id,
+&nbsp;                                                    @RequestBody CultureDto cultureDto)throws ResourceNotFoundException {
+&nbsp;
+<b class="fc">&nbsp;        CultureModel culture = cultureService.updateCulture(id, cultureDto);</b>
+<b class="fc">&nbsp;        return ResponseEntity.status(HttpStatus.OK).body(culture);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-22 13:05</div>
+</div>
+</body>
+</html>

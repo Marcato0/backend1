@@ -1,0 +1,204 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > BudgetController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.api.backend1.controllers</a>
+</div>
+
+<h1>Coverage Summary for Class: BudgetController (com.api.backend1.controllers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BudgetController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    16,7%
+  </span>
+  <span class="absValue">
+    (1/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    9,1%
+  </span>
+  <span class="absValue">
+    (1/11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.api.backend1.controllers;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;import com.api.backend1.dtos.BudgetDto;
+&nbsp;import com.api.backend1.exceptions.ResourceNotFoundException;
+&nbsp;import com.api.backend1.models.BudgetModel;
+&nbsp;import com.api.backend1.services.BudgetService;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/budget&quot;)
+<b class="fc">&nbsp;public class BudgetController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private BudgetService budgetService;
+&nbsp;
+&nbsp;
+&nbsp;    @PostMapping
+&nbsp;    /**
+&nbsp;     * Método público que recebe um objeto do tipo BudgetDto via HTTP request body
+&nbsp;     * e retorna um objeto do tipo BudgetModel.
+&nbsp;     *
+&nbsp;     * @param budgetDto objeto BudgetDto enviado pelo cliente via HTTP request body.
+&nbsp;     * @return objeto BudgetModel criado e persistido no banco de dados.
+&nbsp;     */
+&nbsp;    public BudgetModel save(@RequestBody BudgetDto budgetDto) {
+<b class="nc">&nbsp;        return budgetService.createBudget(budgetDto);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    @GetMapping
+&nbsp;    /**
+&nbsp;     * Método público que retorna uma lista com todos os orçamentos registrados no banco de dados.
+&nbsp;     *
+&nbsp;     * @return objeto ResponseEntity com status HTTP OK e corpo da resposta contendo a lista de orçamentos.
+&nbsp;     */
+&nbsp;    public ResponseEntity&lt;List&lt;BudgetModel&gt;&gt; getAllBudget() {
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.OK)</b>
+<b class="nc">&nbsp;                .body(budgetService</b>
+<b class="nc">&nbsp;                        .findAll());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    @GetMapping(&quot;/search/{name}&quot;)
+&nbsp;    /**
+&nbsp;     * Método público que recebe um parâmetro &#39;name&#39; enviado pelo cliente via URL e retorna uma lista de
+&nbsp;     * objetos BudgetModel que contém o valor do parâmetro &#39;name&#39; no campo &#39;name&#39; da entidade.
+&nbsp;     *
+&nbsp;     * @param name valor a ser buscado no campo &#39;name&#39; do objeto BudgetModel.
+&nbsp;     * @return objeto ResponseEntity com status HTTP OK e corpo da resposta contendo a lista de objetos BudgetModel.
+&nbsp;     */
+&nbsp;    public ResponseEntity&lt;List&lt;BudgetModel&gt;&gt; findByNameContaining(@PathVariable String name) {
+&nbsp;        /**
+&nbsp;         * Chama o metodo findByNameContaining do service que tem uma lista de orçamentos com o valor de &#39;name&#39; no campo name do model
+&nbsp;         * O resultado dessa busca é armazenado numa lista de objetos chamada budgets.
+&nbsp;         */
+<b class="nc">&nbsp;        List&lt;BudgetModel&gt; budgets = budgetService.findByNameContaining(name);</b>
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.OK).body(budgets);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    @DeleteMapping(&quot;/{id}&quot;)
+&nbsp;    /**
+&nbsp;     * Método público que recebe o ID de um objeto BudgetModel a ser deletado e retorna uma resposta HTTP.
+&nbsp;     *
+&nbsp;     * @param id ID do objeto BudgetModel a ser deletado.
+&nbsp;     * @return objeto ResponseEntity com status HTTP OK e corpo da resposta contendo a mensagem de sucesso.
+&nbsp;     */
+&nbsp;    public ResponseEntity&lt;Object&gt; deleteBudget(@PathVariable UUID id) throws ResourceNotFoundException {
+<b class="nc">&nbsp;        budgetService.deleteBudget(id);</b>
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.OK).body(&quot;Budget deleted successfully.&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    @PutMapping(&quot;/{id}&quot;)
+&nbsp;    /**
+&nbsp;     * Método público que recebe o ID de um objeto BudgetModel e um objeto BudgetDto enviado pelo cliente via HTTP request body.
+&nbsp;     * O método atualiza os campos do objeto BudgetModel com base nas informações contidas no objeto BudgetDto.
+&nbsp;     *
+&nbsp;     * @param id ID do objeto BudgetModel a ser atualizado.
+&nbsp;     * @param budgetDto objeto BudgetDto enviado pelo cliente via HTTP request body.
+&nbsp;     * @return objeto ResponseEntity com status HTTP OK e corpo da resposta contendo o objeto BudgetModel atualizado.
+&nbsp;     */
+&nbsp;    public ResponseEntity&lt;BudgetModel&gt; updateBudget(@PathVariable UUID id,
+&nbsp;                                                    @RequestBody BudgetDto budgetDto)
+&nbsp;                                                    throws ResourceNotFoundException {
+&nbsp;
+<b class="nc">&nbsp;        BudgetModel budget = budgetService.updateBudget(id, budgetDto);</b>
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.OK).body(budget);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-22 13:05</div>
+</div>
+</body>
+</html>

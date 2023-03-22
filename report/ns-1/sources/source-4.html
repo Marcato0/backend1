@@ -1,0 +1,198 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ProductController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.api.backend1.controllers</a>
+</div>
+
+<h1>Coverage Summary for Class: ProductController (com.api.backend1.controllers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProductController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    16,7%
+  </span>
+  <span class="absValue">
+    (1/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    9,1%
+  </span>
+  <span class="absValue">
+    (1/11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.api.backend1.controllers;
+&nbsp;
+&nbsp;
+&nbsp;import com.api.backend1.dtos.ProductDto;
+&nbsp;import com.api.backend1.exceptions.ResourceNotFoundException;
+&nbsp;import com.api.backend1.models.ProductModel;
+&nbsp;import com.api.backend1.services.ProductService;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@CrossOrigin(origins = &quot;*&quot;, maxAge = 3600)
+&nbsp;@RequestMapping(&quot;/product&quot;)
+<b class="fc">&nbsp;public class ProductController{</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    ProductService productService;
+&nbsp;
+&nbsp;
+&nbsp;    @PostMapping
+&nbsp;    /**
+&nbsp;     * Método público que recebe um objeto do tipo ProductDto via HTTP request body
+&nbsp;     * e retorna um objeto do tipo ProductModel.
+&nbsp;     *
+&nbsp;     * @param productDto objeto ProductDto enviado pelo cliente via HTTP request body.
+&nbsp;     * @return objeto ProductModel criado e persistido no banco de dados.
+&nbsp;     */
+&nbsp;    public ProductModel save(@RequestBody ProductDto productDto) {
+<b class="nc">&nbsp;        return productService.createProduct(productDto);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @GetMapping
+&nbsp;    /**
+&nbsp;     * Método público que retorna uma lista de todos os objetos ProductModel.
+&nbsp;     *
+&nbsp;     * @return lista de objetos ProductModel.
+&nbsp;     */
+&nbsp;    public ResponseEntity&lt;List&lt;ProductModel&gt;&gt; getAllProduct() {
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.OK)</b>
+<b class="nc">&nbsp;                .body(productService</b>
+<b class="nc">&nbsp;                        .getAllProducts());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(&quot;/search/{name}&quot;)
+&nbsp;    /**
+&nbsp;     * Método público que recebe uma string &#39;name&#39; via HTTP path variable e retorna
+&nbsp;     * uma lista de objetos ProductModel com o valor de &#39;name&#39; no campo &#39;name&#39; do objeto ProductDto.
+&nbsp;     *
+&nbsp;     * @param name valor para busca do campo &#39;name&#39; do objeto ProductDto.
+&nbsp;     * @return lista de objetos ProductModel com &#39;name&#39; no campo &#39;name&#39; do objeto ProductDto.
+&nbsp;     */
+&nbsp;    public ResponseEntity&lt;List&lt;ProductModel&gt;&gt; findByNameContaining(@PathVariable String name) {
+&nbsp;        /**
+&nbsp;         * Chama o metodo findByNameContaining do service que tem uma lista de produtos com o valor de &#39;name&#39; no campo name do ProductDto
+&nbsp;         * O resultado dessa busca é armazenado numa lista de objetos chamada products.
+&nbsp;         */
+<b class="nc">&nbsp;        List&lt;ProductModel&gt; products = productService.findByNameContaining(name);</b>
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.OK).body(products);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @DeleteMapping(&quot;/{id}&quot;)
+&nbsp;    /**
+&nbsp;     * Método público que recebe um UUID via HTTP path variable e exclui o objeto ProductModel correspondente.
+&nbsp;     *
+&nbsp;     * @param id UUID do objeto ProductModel a ser excluído.
+&nbsp;     * @return mensagem de sucesso da exclusão.
+&nbsp;     */
+&nbsp;    public ResponseEntity&lt;Object&gt; deleteProduct(@PathVariable UUID id) throws ResourceNotFoundException {
+<b class="nc">&nbsp;        productService.deleteProduct(id);</b>
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.OK).body(&quot;Product deleted successfully.&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PutMapping(&quot;/{id}&quot;)
+&nbsp;    /**
+&nbsp;     * Método público que recebe um UUID via HTTP path variable e um objeto do tipo ProductDto
+&nbsp;     * via HTTP request body e atualiza o objeto ProductModel correspondente.
+&nbsp;     *
+&nbsp;     * @param id         UUID do objeto ProductModel a ser atualizado.
+&nbsp;     * @param productDto objeto ProductDto enviado pelo cliente via HTTP request body.
+&nbsp;     * @return objeto ProductModel atualizado.
+&nbsp;     */
+&nbsp;    public ResponseEntity&lt;ProductModel&gt; updateProduct(@PathVariable UUID id,
+&nbsp;                                                                @RequestBody ProductDto productDto) throws ResourceNotFoundException {
+<b class="nc">&nbsp;        var updatedProduct = productService.updateProduct(id, productDto);</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok(updatedProduct);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-22 13:05</div>
+</div>
+</body>
+</html>
